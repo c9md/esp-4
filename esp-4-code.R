@@ -31,23 +31,23 @@ netup <- function(d){
   
   # We construct a list of lists, h, where each sublist h[[i]] is or corresponding length d[i]
   h <- list()
-  for (i in 1:length(d)){
-    h[[i]] <- rep(0,d[i])
+  for (l in 1:length(d)){
+    h[[l]] <- rep(0,d[l])
   }
   
   # W is a list of weight matrices, W[[i]] is the weight matrix linking layer i to layer i + 1
   # We initialise the elements with U(0,0.2) random deviates
   
   W <- list() 
-  for (i in 1:(length(d)-1)){
-    W[[i]] <- matrix(runif(d[i]*d[i+1],0,0.2),nrow = d[i],ncol = d[i+1])
+  for (l in 1:(length(d)-1)){
+    W[[l]] <- matrix(runif(d[l]*d[l+1],0,0.2),nrow = d[l+1],ncol = d[l])
   }
   
   # b is a list of offset vectors, b[[i]] is the offset vector linking layer i to layer i + 1
   # We initialise the elements with U(0,0.2) random deviates
   b <- list() 
-  for (i in 1:(length(d)-1)){
-    b[[i]] <- matrix(runif(d[i],0,0.2),nrow = d[i],ncol = 1)
+  for (l in 1:(length(d)-1)){
+    b[[l]] <- matrix(runif(d[l],0,0.2),nrow = d[l],ncol = 1)
   }
   
   return(list(h = h, W = W, b = b))
@@ -71,9 +71,21 @@ netup <- function(d){
 #                  Initialize theelements with U (0, 0.2) random deviates.
 
 forward <- function(nn, inp){
-h <- null
-W <- null
-b <- null
+  
+  h <- nn$h
+  w <- nn$W
+  b <- nn$b
+  print(h)
+  print(w)
+  print(b)
+  h[[1]] <- inp 
+  for (l in 1:(length(h)-1)) {
+    for (j in 1:(length(h[[l+1]]))) {
+      h[[l+1]][j] <- max(0, w[[l]][j] %*% h[[l]] + b[[l]][j])
+
+    }
+  }
+
   
 return(list(h = h, W = w, b = b))
   }
