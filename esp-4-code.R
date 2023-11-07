@@ -71,24 +71,20 @@ netup <- function(d){
 #                  Initialize theelements with U (0, 0.2) random deviates.
 
 forward <- function(nn, inp){
-  
   h <- nn$h
-  w <- nn$W
-  b <- nn$b
-  print(h)
-  print(w)
-  print(b)
-  h[[1]] <- inp 
-  for (l in 1:(length(h)-1)) {
-    for (j in 1:(length(h[[l+1]]))) {
-      h[[l+1]][j] <- max(0, w[[l]][j] %*% h[[l]] + b[[l]][j])
+  W <- nn$W
+  b <- nn$b 
 
-    }
+
+  h[[1]] <- inp
+
+  for(l in 1:(length(h)-1)){
+    h[[l+1]] <- t(h[[l]] %*% t(W[[l]])) + b[[l]]
+    h[[l+1]] <- apply(h[[l+1]], 1, function(x) max(x,0))
   }
 
-  
-return(list(h = h, W = w, b = b))
-  }
+  return(list(h = h, W = W, b = b))
+}
 
 
 
