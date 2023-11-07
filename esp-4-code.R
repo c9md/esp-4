@@ -23,16 +23,34 @@
 #                  Initialize the elements with U (0, 0.2) random deviates.
 #     - b        - a list of offset vectors. 
 #                  b[[l]] is the offset vector linking layer l to layer l+1. 
-#                  Initialize theelements with U (0, 0.2) random deviates.
+#                  Initialize the elements with U (0, 0.2) random deviates.
 
 
 
 netup <- function(d){
-h <- null
-W <- null
-b <- null
-
-return(list(h = h, W = w, b = b))
+  
+  # We construct a list of lists, h, where each sublist h[[i]] is or corresponding length d[i]
+  h <- list()
+  for (i in 1:length(d)){
+    h[[i]] <- rep(0,d[i])
+  }
+  
+  # W is a list of weight matrices, W[[i]] is the weight matrix linking layer i to layer i + 1
+  # We initialise the elements with U(0,0.2) random deviates
+  
+  W <- list() 
+  for (i in 1:(length(d)-1)){
+    W[[i]] <- matrix(runif(d[i]*d[i+1],0,0.2),nrow = d[i],ncol = d[i+1])
+  }
+  
+  # b is a list of offset vectors, b[[i]] is the offset vector linking layer i to layer i + 1
+  # We initialise the elements with U(0,0.2) random deviates
+  b <- list() 
+  for (i in 1:(length(d)-1)){
+    b[[i]] <- matrix(runif(d[i],0,0.2),nrow = d[i],ncol = 1)
+  }
+  
+  return(list(h = h, W = W, b = b))
             
 }
 
