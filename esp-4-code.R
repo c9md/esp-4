@@ -111,14 +111,15 @@ backward <- function(nn, k){
   h <- nn$h
   W <- nn$W
   b <- NN$b
-  dh <- list()
-  dW <- list()
-  db <- list()
+  dh <- h
+  dW <- W
+  db <- b
   
   # We compute the derivative of the loss for k w.r.t. h[[L]][j]
   # Where L is the output layer and j is the jth node in the output layer
-  L <- length(h[[length(h)]]) # number of nodes in the output layer
-  for (j in range(L)){ # for each node in the output layer
+  L_nodes <- length(h[[length(h)]]) # number of nodes in the output layer
+  L <- length(h)
+  for (j in range(L_nodes)){ # for each node in the output layer
     dh_L <- exp(h[[L]][j])/(sum(exp(h[[L]]))) # derivative of the loss for k w.r.t. h[[L]][j]
     
     if (j == k){
@@ -126,10 +127,16 @@ backward <- function(nn, k){
     } else {
       dh[[L]][j] <- dh_L
     }
-    
   }
   
-  
+  for (j in (L-1):1){
+    d <- dh[[j+1]]
+    d[which(dh[[j+1]]<=0)] <- 0
+
+    dh[[j]] <- t(W[[j]]) %*% d    
+    db[[j]] <- d
+    dW[[j]] <- d %*% t(h[[j]])
+  }
   
   return(list(h = h, W = w, b = b, dh = dh, dW = dW, db = db))
   }
