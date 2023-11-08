@@ -92,7 +92,7 @@ forward <- function(nn, inp){
 # Description: 
 # Inputs:       
 #     - nn        - returned from forward
-#     - k         - the index of the correct class for each input c(1,2,3,4)
+#     - k         - the output class of the input
 
 # Outputs: 
 #     - h        - a list of nodes for each layer. 
@@ -117,6 +117,17 @@ backward <- function(nn, k){
   
   # We compute the derivative of the loss for k w.r.t. h[[L]][j]
   # Where L is the output layer and j is the jth node in the output layer
+  L <- length(h[[length(h)]]) # number of nodes in the output layer
+  for (j in range(L)){ # for each node in the output layer
+    dh_L <- exp(h[[L]][j])/(sum(exp(h[[L]]))) # derivative of the loss for k w.r.t. h[[L]][j]
+    
+    if (j == k){
+      dh[[L]][j] <- dh_L - 1
+    } else {
+      dh[[L]][j] <- dh_L
+    }
+    
+  }
   
   
   
