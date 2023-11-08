@@ -110,7 +110,7 @@ forward <- function(nn, inp){
 backward <- function(nn, k){
   h <- nn$h
   W <- nn$W
-  b <- NN$b
+  b <- nn$b
   dh <- h
   dW <- W
   db <- b
@@ -158,6 +158,23 @@ backward <- function(nn, k){
 
 
 train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
+    
+    for (step in nstep) {
+     inp_row <- sample(nrow(inp),1)
+     nn <- forward(nn, inp[inp_row])
+     h <- nn$h
+     W <- nn$W
+     b <- nn$b
+     nn <- backward(nn, k[inp_row])
+     dW <- nn$dW
+     db <- nn$db
+     dh <- nn$dh
+     W <- W - eta * dW 
+     b <- b - eta * db
+      
+    }
+  
+  
 
   }
 
