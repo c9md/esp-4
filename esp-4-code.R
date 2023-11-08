@@ -68,7 +68,7 @@ netup <- function(d){
 #                  Initialize the elements with U (0, 0.2) random deviates.
 #     - b        - a list of offset vectors. 
 #                  b[[l]] is the offset vector linking layer l to layer l+1. 
-#                  Initialize theelements with U (0, 0.2) random deviates.
+#                  Initialize the elements with U (0, 0.2) random deviates.
 
 forward <- function(nn, inp){
   h <- nn$h
@@ -92,7 +92,7 @@ forward <- function(nn, inp){
 # Description: 
 # Inputs:       
 #     - nn        - returned from forward
-#     - k         - 
+#     - k         - the index of the correct class for each input c(1,2,3,4)
 
 # Outputs: 
 #     - h        - a list of nodes for each layer. 
@@ -102,20 +102,25 @@ forward <- function(nn, inp){
 #                  Initialize the elements with U (0, 0.2) random deviates.
 #     - b        - a list of offset vectors. 
 #                  b[[l]] is the offset vector linking layer l to layer l+1. 
-#                  Initialize theelements with U (0, 0.2) random deviates.
+#                  Initialize the elements with U (0, 0.2) random deviates.
 #     - dh       - derivatives with respect to the nodes
 #     - dW       - derivatives with respect to the weights
 #     - db       - derivatives with respect to the offsets
 
 backward <- function(nn, k){
-h <- null
-W <- null
-b <- null
-dh <- null
-dW <- null
-db <- null
+  h <- nn$h
+  W <- nn$W
+  b <- NN$b
+  dh <- list()
+  dW <- list()
+  db <- list()
   
-return(list(h = h, W = w, b = b, dh = dh, dW = dW, db = db))
+  # We compute the derivative of the loss for k w.r.t. h[[L]][j]
+  # Where L is the output layer and j is the jth node in the output layer
+  
+  
+  
+  return(list(h = h, W = w, b = b, dh = dh, dW = dW, db = db))
   }
 
 
