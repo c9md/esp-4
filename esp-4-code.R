@@ -180,7 +180,7 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
   for (step in nstep) {
     
     # Compute the gradients for each of the mb data points and compute their average
-        for (i in mb){
+      for (i in mb){
       # Sample a data point from inp
       inp_row <- sample(nrow(inp),1)
       
@@ -198,6 +198,7 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
     } 
      # Compute the average of the mb gradients 
     # i.e. dW_avg_val should be the average of the mb dW values, and have the same dimensions as dW
+    # ensure this is the correct way to compute the average
     dW_avg_val <- apply(dW_avg, 1, mean)
     db_avg_val <- apply(db_avg, 1, mean)
     dh_avg_val <- apply(dh_avg, 1, mean)
@@ -206,6 +207,7 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
     W <- W - eta * dW_avg_val
     b <- b - eta * db_avg_val
     
+    # 
     # update nn with these new values
     nn$W <- W
     nn$b <- b
@@ -213,26 +215,22 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
 
   return(list(h = nn$h, W = W, b = b))
 }
-# 14.6 check backward derivative by finite differences
-# 
+ 
 
+## TO DO LIST:
 
+# Implement train function
+# Check backward derivative using finite differences (section 14.6) 
+  # This is manually calculating the derivative using a tiny difference
+# Train the network on the Iris data set:
+  # Split the data into training and test sets
+    # To do this, we take every 5th row from the data set and put it into the test set
+  # Train the network on the training set
 
+# Write code to classify the test data to species according to the class predicted as the most likely by the network
+# Compute the misclassification rate for the test set 
 
-#for (step in nstep) {
- # inp_row <- sample(nrow(inp),1)
-#  nn <- forward(nn, inp[inp_row])
-#  h <- nn$h
-#  W <- nn$W
-#  b <- nn$b
-#  nn <- backward(nn, k[inp_row])
-#  dW <- nn$dW
-#  db <- nn$db
-#  dh <- nn$dh
-
-#}
-
-return(list(h = nn$h, W = W, b = b))
+# Find a seed to use in which the training has worked and the loss is substatially reduced from pre to post training
 
 
 
