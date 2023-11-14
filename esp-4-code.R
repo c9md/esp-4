@@ -143,48 +143,95 @@ backward <- function(nn, k){
 
 
 #### Function:      train
-# Description: 
+# Description: Train the network nn given the imput data in the rows of matrix inp and the corresponding class labels in k.
 # Inputs:       
 #     - nn        - returned from forward
-#     - inp       - 
-#     - k 
+#     - inp       - matrix of input data, one row per data point
+#     - k         - vector of the output classes of the input data
 #     - eta       - step size
 #     - mb        - number of data to randomly sample to compute the gradient
 #     - nstep     - number of optimization steps to take
 
-# Outputs: 
-#     - ?
+# Outputs: the trained netword nn
+#    - h        - a list of nodes for each layer.
+#                 h[[l]] should be a vector of length d[l] which will contain the node values for layer l.
+#    - W        - a list of weight matrices.
+#                 W[[l]] is the weight matrix linking layer l to layer l+1.
+#    - b       - a list of offset vectors.
 
 
 
+# We want to train a schocastic gradient descent
+# We want to randomly sample mb data points from inp
+# We want to compute the gradient for each of these mb data points
+# we use forward and backward to compute the gradient
 train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
+  h <- nn$h
+  W <- nn$W
+  b <- nn$b
+  
+  # Initialise lists to store the gradients, to compute the averages
+  dW_avg <- list()
+  db_avg <- list()
+  dh_avg <- list()
+  
+  # We want to randomly sample mb data points from inp 
+  # We do this nstep times
+  for (step in nstep) {
     
-    for (step in nstep) {
-     inp_row <- sample(nrow(inp),1)
-     nn <- forward(nn, inp[inp_row])
-     h <- nn$h
-     W <- nn$W
-     b <- nn$b
-     nn <- backward(nn, k[inp_row])
-     dW <- nn$dW
-     db <- nn$db
-     dh <- nn$dh
-     W <- W - eta * dW 
-     b <- b - eta * db
+    # Compute the gradients for each of the mb data points and compute their average
+        for (i in mb){
+      # Sample a data point from inp
+      inp_row <- sample(nrow(inp),1)
       
-    }
-  
-  
-
+      # Compute the gradient for this data point
+      nn <- forward(nn, inp[inp_row])
+      h <- nn$h
+      W <- nn$W
+      b <- nn$b
+      
+      nn <- backward(nn, k[inp_row])
+      # Add the gradients to the lists that store the gradients
+      dW_avg[[i]] <- nn$dW
+      db_avg[[i]] <- nn$db
+      dh_avg[[i]] <- nn$dh
+    } 
+     # Compute the average of the mb gradients 
+    # i.e. dW_avg_val should be the average of the mb dW values, and have the same dimensions as dW
+    dW_avg_val <- apply(dW_avg, 1, mean)
+    db_avg_val <- apply(db_avg, 1, mean)
+    dh_avg_val <- apply(dh_avg, 1, mean)
+     
+     # then update the weights and offsets
+    W <- W - eta * dW_avg_val
+    b <- b - eta * db_avg_val
+    
+    # update nn with these new values
+    nn$W <- W
+    nn$b <- b
   }
 
 
+# 14.6 check backward derivative by finite differences
+# 
 
 
 
 
+#for (step in nstep) {
+ # inp_row <- sample(nrow(inp),1)
+#  nn <- forward(nn, inp[inp_row])
+#  h <- nn$h
+#  W <- nn$W
+#  b <- nn$b
+#  nn <- backward(nn, k[inp_row])
+#  dW <- nn$dW
+#  db <- nn$db
+#  dh <- nn$dh
 
+#}
 
+return(list(h = nn$h, W = W, b = b))
 
 
 
