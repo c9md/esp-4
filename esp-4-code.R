@@ -211,7 +211,8 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
     nn$b <- b
   }
 
-
+  return(list(h = nn$h, W = W, b = b))
+}
 # 14.6 check backward derivative by finite differences
 # 
 
