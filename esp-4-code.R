@@ -115,27 +115,38 @@ backward <- function(nn, k){
   dW <- W
   db <- b
   
-  # We compute the derivative of the loss for k w.r.t. h[[L]][j]
+  # We compute the derivative of the loss for k w.r.t. h[[L]][j] 
   # Where L is the output layer and j is the jth node in the output layer
+  
   L_nodes <- length(h[[length(h)]]) # number of nodes in the output layer
   L <- length(h)
+  
   for (j in range(L_nodes)){ # for each node in the output layer
-    dh_L <- exp(h[[L]][j])/(sum(exp(h[[L]]))) # derivative of the loss for k w.r.t. h[[L]][j]
+    # Calculate the derivative of the loss for k w.r.t. h[[L]][j]
+    dh_L <- exp(h[[L]][j])/(sum(exp(h[[L]]))) # Compute derivative
     
-    if (j == k){
-      dh[[L]][j] <- dh_L - 1
+    if (j == k){ # if the node is the correct class
+      dh[[L]][j] <- dh_L - 1 
     } else {
       dh[[L]][j] <- dh_L
     }
   }
   
-  for (j in (L-1):1){
-    d <- dh[[j+1]]
-    d[which(dh[[j+1]]<=0)] <- 0
+  # Now we compute the derivatives of the loss for the other nodes, 
+  # by working back the network and applying the chain rule
+  
+  for (j in (L-1):1){ # for each layer in the network working backwards
+    
+    # We first compute d for each node in the layer where
+    # d is the derivative of the loss for then node in the layer prior
+    # or zero, if that derivative is negative
+    
+    d <- dh[[j+1]]  # derivative w.r.t. h[[j+1]]
+    d[which(dh[[j+1]]<=0)] <- 0 # if the derivative w.r.t h  <= 0, set d = 0
 
-    dh[[j]] <- t(W[[j]]) %*% d    
-    db[[j]] <- d
-    dW[[j]] <- d %*% t(h[[j]])
+    dh[[j]] <- t(W[[j]]) %*% d  # derivative w.r.t. h
+    db[[j]] <- d                # derivative w.r.t. b is just d
+    dW[[j]] <- d %*% t(h[[j]])  # derivative w.r.t. W is d %*% h[[j]]
   }
   
   return(list(h = h, W = w, b = b, dh = dh, dW = dW, db = db))
@@ -219,14 +230,14 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
 
 ## TO DO LIST:
 
-# Implement train function
+# Implement train function - NALA
   # ensure avg is computed properly
 
-# Check backward derivative using finite differences (section 14.6) 
+# Check backward derivative using finite differences (section 14.6) - SOPHIE
   # This is manually calculating the derivative using a tiny difference
 
 # Train the network on the Iris data set:
-  # Split the data into training and test sets
+  # Split the data into training and test sets - CAMERON
     # To do this, we take every 5th row from the data set and put it into the test set
   # Train the network on the training set
 
