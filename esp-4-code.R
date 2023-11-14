@@ -254,13 +254,11 @@ train(nn = initial_network, inp = train_iris, k = 4)
 # Check backward derivative using finite differences (section 14.6) - SOPHIE
   # This is manually calculating the derivative using a tiny difference
 
-<<<<<<< HEAD
 # Train the network on the Iris data set:
-  # Split the data into training and test sets - CAMERON
+  # Split the data into training and test sets 
     # To do this, we take every 5th row from the data set and put it into the test set
-=======
+
 # Train the network on the Iris data set: cameron
->>>>>>> 6665863ab88afd6654d3617595569318c1316645
   # Train the network on the training set
 
 # Write code to classify the test data to species according to the class predicted as the most likely by the network
