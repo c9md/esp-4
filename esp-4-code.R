@@ -220,8 +220,11 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
 ## TO DO LIST:
 
 # Implement train function
+  # ensure avg is computed properly
+
 # Check backward derivative using finite differences (section 14.6) 
   # This is manually calculating the derivative using a tiny difference
+
 # Train the network on the Iris data set:
   # Split the data into training and test sets
     # To do this, we take every 5th row from the data set and put it into the test set
@@ -230,9 +233,11 @@ train <- function(nn,inp,k,eta=.01,mb=10,nstep=10000) {
 # Write code to classify the test data to species according to the class predicted as the most likely by the network
 # Compute the misclassification rate for the test set 
 
-# Find a seed to use in which the training has worked and the loss is substatially reduced from pre to post training
+# Find a seed to use in which the training has worked and the loss is substantially reduced from pre to post training
 
+# Ensure the code is well commented
 
+# Make any efficiency changes if time allows
 
 
 
