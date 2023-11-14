@@ -149,7 +149,7 @@ backward <- function(nn, k){
     dW[[j]] <- d %*% t(h[[j]])  # derivative w.r.t. W is d %*% h[[j]]
   }
   
-  return(list(h = h, W = w, b = b, dh = dh, dW = dW, db = db))
+  return(list(h = h, W = W, b = b, dh = dh, dW = dW, db = db))
   }
 
 
