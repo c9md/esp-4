@@ -287,7 +287,7 @@ nn <- netup(c(4,8,7,3))
 ## We found that the train function give a better result when using eta=.09 
 nn <- train(nn, X_train, y_train, eta=.09)
 ## Plot the training loss over iterations.
-plot(matrix(nn$loss), type='l')
+plot(matrix(nn$loss), type='l', main="Training Loss Over Iterations", xlab="Iterations", ylab="Loss")
 
 # Testing:
 ## Make predictions on the test set.
