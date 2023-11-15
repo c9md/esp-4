@@ -211,7 +211,7 @@ accuracy <- function(yhat, y) {
 }
 
 # Create a function to convert species labels to binary vectors
-generate_iris_binary_label <- function() {
+generate_iris_label <- function() {
   y <- iris[,5]
   y_bin <- matrix(rep(0, length(y)), nrow=length(y), ncol=1)
   y_bin[which(y=="setosa"),] <- 1
@@ -222,7 +222,7 @@ generate_iris_binary_label <- function() {
 
 # Convert the `Species` variable to a matrix of binary representations
 X <- iris[,(1:4)]
-y <- generate_iris_binary_label()
+y <- generate_iris_label()
 
 test_index <- seq(5, dim(X)[1], length=dim(X)[1]%/%5)
 X_train <- X[-test_index,]
