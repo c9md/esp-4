@@ -193,14 +193,15 @@ backward <- function(nn, k){
 #### Function:      train
 # Description: 
 # Inputs:       
-#     - nn        - returned from forward
-#     - inp       - 
-#     - k 
-#     - eta       - step size
-#     - mb        - number of data to randomly sample to compute the gradient
-#     - nstep     - number of optimization steps to take
+#     - nn        - A list containing the neural network structure with hidden layer values ('h'), weight matrices ('W'), and bias vectors ('b').
+#     - inp       - Input matrix representing the features of the training dataset.
+#     - k         - True class labels or indices for the training dataset.
+#     - eta       - Learning rate for gradient descent (default: 0.01).
+#     - mb        - Mini-batch size for each iteration of mini-batch gradient descent (default: 10).
+#     - nstep     - Number of training steps or iterations (default: 10000).
 # Outputs: 
-#     - ?
+#     - A list containing updated hidden layer values ('h'), weight matrices ('W'), bias vectors ('b'),
+#       computed gradients ('dh', 'dW', 'db'), and a vector of loss values at each training step.
 train <- function(nn, inp, k, eta=.01, mb=10, nstep=10000) {
   # Create an empty list to store the loss at each training step.
   loss <- list()
@@ -226,6 +227,8 @@ train <- function(nn, inp, k, eta=.01, mb=10, nstep=10000) {
     loss[step] <- cross_entropy(nn$h[[length(nn$h)]], k[inp_row])
   }
  
+  # Return a list containing updated hidden layer values, weight matrices, bias vectors,
+  # computed gradients, and a vector of loss values at each training step.
   return(list(h=nn$h, W=nn$W, b=nn$b, dh=nn$dh, dW=nn$dW, db=nn$db, loss=loss))
 }
 
