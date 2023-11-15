@@ -191,7 +191,7 @@ backward <- function(nn, k){
 }
 
 #### Function:      train
-# Description: 
+# Description: Train the network nn given the imput data in the rows of matrix inp and the corresponding class labels in k.
 # Inputs:       
 #     - nn        - A list containing the neural network structure with hidden layer values ('h'), weight matrices ('W'), and bias vectors ('b').
 #     - inp       - Input matrix representing the features of the training dataset.
