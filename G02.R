@@ -12,7 +12,7 @@
 # misclassification rate when using the chosen seed (7).
 
 
-# Function: cross_entropy
+#### Function: cross_entropy
 # Description: Calculate the cross-entropy loss between predicted probabilities 
 # (yhat) and true labels (y). We can also describe this as negative
 # log-likelihood of a multinomial distribution
@@ -24,8 +24,8 @@
 #                    represents a class.
 #         y       -  A vector or matrix of true class labels, 
 #                     or a numeric vector indicating the true class indices.
-# Output: Cross-entropy loss value.
-
+# Output: 
+#                 -Cross-entropy loss value.
 cross_entropy <- function(yhat, y) {
   # Create a matrix combining true labels 'y' with their corresponding indices.
   k_true <- cbind(y, seq_along(y))
@@ -35,7 +35,7 @@ cross_entropy <- function(yhat, y) {
   return(-sum(log(yhat[k_true]))/length(y))
 }
 
-# Function: softmax
+#### Function: softmax
 # Description: Apply the softmax activation function to the input matrix 
 # along its columns.
 # This calculates the probabilities p_k of each class for each sample.
@@ -43,7 +43,7 @@ cross_entropy <- function(yhat, y) {
 #         mat - Input matrix where each column represents the pre-activation
 #                 values for different classes.
 # Output:           
-#               Matrix of probabilities obtained by applying the softmax 
+#             - Matrix of probabilities obtained by applying the softmax 
 #               function to each column of 'mat'.
 softmax <- function(mat) {
   # Compute the exponentials of the input matrix 
@@ -60,7 +60,7 @@ softmax <- function(mat) {
   return(t(t(exp_mat)/exp_mat_colsum))
 }
 
-# Function: relu
+#### Function: relu
 # Description: Apply the Rectified Linear Unit (ReLU) activation function 
 # element-wise to the input matrix 'mat'.
 # Input:       
@@ -79,7 +79,7 @@ relu <- function (mat){
 # Description: Given a list of nodes in leach layer, construct a neural network
 # Input:       
 #         d   - vector giving the number of nodes in each layer of a network
-# Outputs: 
+# Output: 
 #         h   - a list of nodes for each layer. 
 #               h[[l]] should be a vector of length d[l] which will contain 
 #               the node values for layer l.
@@ -118,22 +118,25 @@ netup <- function(d){
   return(list(h = h, W = W, b = b))          
 }
 
-#### Function:                 forward
-# Description:                 the function computes the remaining node values implied by inp, andr eturn the updated network list (as the only return object).
-# Inputs:       
-#     - nn                   -  a network list as returned by netup.
-#     - inp                  -  a vector of input values for the first layer
-# Outputs: 
-#     - h        - a list of nodes for each layer. 
-#                  h[[l]] should be a vector of length d[l] which will contain the node values for layer l.
-#     - W        - a list of weight matrices. 
-#                  W[[l]] is the weight matrix linking layer l to layer l+1. 
-#                  Initialize the elements with U (0, 0.2) random deviates.
-#     - b        - a list of offset vectors. 
-#                  b[[l]] is the offset vector linking layer l to layer l+1. 
-#                  Initialize the elements with U (0, 0.2) random deviates.
+#### Function:  forward
+# Description:  the function computes the remaining node values implied by input
+#               and returns the updated network list.
+# Input:       
+#         nn    -  a network list as returned by netup.
+#         inp   -  a vector of input values for the first layer
+# Output: 
+#         h     - a list of nodes for each layer. 
+#                 h[[l]] should be a vector of length d[l] which will contain 
+#                 the node values for layer l.
+#         W     - a list of weight matrices. 
+#                 W[[l]] is the weight matrix linking layer l to layer l+1. 
+#                 Initialize the elements with U (0, 0.2) random deviates.
+#         b     - a list of offset vectors. 
+#                 b[[l]] is the offset vector linking layer l to layer l+1. 
+#                 Initialize the elements with U (0, 0.2) random deviates.
 forward <- function(nn, inp){
-  # Extract hidden layer values ('h'), weight matrices ('W'), and bias vectors ('b') from the neural network structure.
+  # Extract hidden layer values ('h'), weight matrices ('W'), 
+  # and bias vectors ('b') from the neural network structure.
   h <- nn$h
   W <- nn$W
   b <- nn$b 
@@ -142,7 +145,7 @@ forward <- function(nn, inp){
   h[[1]] <- t(inp)
 
   for(l in 1:(length(h)-1)){
-    # Calculate the pre-activation values for the next layer: h_l+1 = W_l * t(h_l) + b_l
+    # Calculate the pre-activation values for the next layer
     h[[l+1]] <- W[[l]] %*% h[[l]] + b[[l]]
 
     # Apply activation function
@@ -156,33 +159,36 @@ forward <- function(nn, inp){
     }
   }
 
-  # Return a list containing updated hidden layer values ('h'), weight matrices ('W'), and bias vectors ('b').
+  # Return a list containing the output specified
   return(list(h = h, W = W, b = b))
 }
 
 
 #### Function:      backward
 # Description: 
-# Inputs:       
-#     - nn        - returned from forward
-#     - k         - the output class of the input
-# Outputs: 
-#     - h        - a list of nodes for each layer. 
-#                  h[[l]] should be a vector of length d[l] which will contain the node values for layer l.
-#     - W        - a list of weight matrices. 
-#                  W[[l]] is the weight matrix linking layer l to layer l+1. 
-#                  Initialize the elements with U (0, 0.2) random deviates.
-#     - b        - a list of offset vectors. 
-#                  b[[l]] is the offset vector linking layer l to layer l+1. 
-#                  Initialize the elements with U (0, 0.2) random deviates.
-#     - dh       - derivatives with respect to the nodes
-#     - dW       - derivatives with respect to the weights
-#     - db       - derivatives with respect to the offsets
+# Input:       
+#         nn    - returned from forward
+#         k     - the output class of the input
+# Output: 
+#         h     - a list of nodes for each layer. 
+#                 h[[l]] should be a vector of length d[l] 
+#                 which will contain the node values for layer l.
+#         W     - a list of weight matrices. 
+#                 W[[l]] is the weight matrix linking layer l to layer l+1. 
+#                 Initialize the elements with U (0, 0.2) random deviates.
+#         b     - a list of offset vectors. 
+#                 b[[l]] is the offset vector linking layer l to layer l+1. 
+#                 Initialize the elements with U (0, 0.2) random deviates.
+#         dh    - derivatives with respect to the nodes
+#         dW    - derivatives with respect to the weights
+#         db    - derivatives with respect to the offsets
 backward <- function(nn, k){
-  # Extract layer values ('h'), weight matrices ('W'), and bias vectors ('b') from the neural network structure.
+  # Extract layer values ('h'), weight matrices ('W'), and bias vectors ('b') 
+  # from the neural network structure.
   h <- nn$h;W <- nn$W;b <- nn$b
 
-  # Create variables to store gradients: dh for hidden layer values, dW for weight matrices, and db for bias vectors.
+  # Create variables to store gradients: dh for hidden layer values,
+  # dW for weight matrices, and db for bias vectors.
   dh <- h;dW <- W;db <- b
 
   # Compute the derivative of the loss function w.r.t output layer
@@ -207,23 +213,30 @@ backward <- function(nn, k){
     dW[[j]] <- d %*% t(h[[j]])
   }
   
-  # Return a list containing updated hidden layer values, weight matrices, bias vectors,
+  # Return a list containing updated hidden layer values, weight matrices,
+  # bias vectors,
   # and computed gradients after the backward pass.
   return(list(h = h, W = W, b = b, dh = dh, dW = dW, db = db))
 }
 
 #### Function:      train
-# Description: Train the network nn given the imput data in the rows of matrix inp and the corresponding class labels in k.
-# Inputs:       
-#     - nn        - A list containing the neural network structure with hidden layer values ('h'), weight matrices ('W'), and bias vectors ('b').
-#     - inp       - Input matrix representing the features of the training dataset.
-#     - k         - True class labels or indices for the training dataset.
-#     - eta       - Learning rate for gradient descent (default: 0.01).
-#     - mb        - Mini-batch size for each iteration of mini-batch gradient descent (default: 10).
-#     - nstep     - Number of training steps or iterations (default: 10000).
-# Outputs: 
-#     - A list containing updated hidden layer values ('h'), weight matrices ('W'), bias vectors ('b'),
-#       computed gradients ('dh', 'dW', 'db'), and a vector of loss values at each training step.
+# Description: Train the network nn given the imput data
+#                 and the corresponding class labels in k.
+# Input:       
+#         nn      - A list containing the neural network structure with hidden 
+#                   layer values ('h'), weight matrices ('W'), 
+#                   and bias vectors ('b').
+#         inp     - Input matrix representing the training dataset.
+#         k       - True class labels or indices for the training dataset.
+#         eta     - Learning rate for gradient descent (default: 0.01).
+#         mb      - Mini-batch size for each iteration of mini-batch gradient 
+#                   descent (default: 10).
+#         nstep   - Number of training steps or iterations (default: 10000).
+# Output: 
+#                 - A list containing updated hidden layer values ('h'), 
+#                   weight matrices ('W'), bias vectors ('b'),
+#                   computed gradients ('dh', 'dW', 'db'), and a vector 
+#                   of loss values at each training step.
 train <- function(nn, inp, k, eta=.01, mb=10, nstep=10000) {
   # Create an empty list to store the loss at each training step.
   loss <- list()
@@ -239,7 +252,8 @@ train <- function(nn, inp, k, eta=.01, mb=10, nstep=10000) {
     # Perform the backward pass to compute gradients.
     nn <- backward(nn, k[inp_row])
 
-    # Update weights and biases by subtracting its value with the average of the gradients.
+    # Update weights and biases by subtracting its value 
+    # with the average of the gradients.
     for(i in (1:length(nn$W))){
       nn$W[[i]] <- nn$W[[i]] - eta * (nn$dW[[i]]/mb) 
       nn$b[[i]] <- nn$b[[i]] - eta * rowMeans(nn$db[[i]])
@@ -249,18 +263,19 @@ train <- function(nn, inp, k, eta=.01, mb=10, nstep=10000) {
     loss[step] <- cross_entropy(nn$h[[length(nn$h)]], k[inp_row])
   }
  
-  # Return a list containing updated hidden layer values, weight matrices, bias vectors,
-  # computed gradients, and a vector of loss values at each training step.
+  # Return a list containing the specified outputs.
   return(list(h=nn$h, W=nn$W, b=nn$b, dh=nn$dh, dW=nn$dW, db=nn$db, loss=loss))
 }
 
-# Function: predict
+#### Function: predict
 # Description: Make predictions using a trained neural network for a given input.
-# Parameters:
-#   - nn: A list containing the neural network structure with hidden layer values ('h'), weight matrices ('W'), and bias vectors ('b').
-#   - inp: Input matrix representing the features for which predictions are to be made.
-# Returns:
-#   - A vector of predicted class labels based on the input.
+# Input:
+#         nn    - A list containing the neural network with hidden layer 
+#                 values ('h'), weight matrices ('W'), and bias vectors ('b').
+#         inp   - Input matrix representing the features for which predictions 
+#                 are to be made.
+# Output:
+#               - A vector of predicted class labels based on the input.
 predict <- function(nn, inp) {
   # Perform the forward pass in the neural network to obtain output.
   nn <- forward(nn, inp)
@@ -269,54 +284,58 @@ predict <- function(nn, inp) {
   output <- nn$h[[length(nn$h)]]
 
   # Convert the output matrix to a vector of predicted class labels.
-  # Each element of the vector represents the index of the maximum value in the corresponding column.
+  # Each element of the vector represents the index of the maximum value in the 
+  # corresponding column.
   return(as.vector(apply(output, 2, which.max)))
 }
 
-# Function: accuracy
-# Description: Calculate the accuracy of predicted class labels compared to true class labels.
-# Parameters:
-#   - yhat: Vector of predicted class labels.
-#   - y: Vector of true class labels.
-# Returns:
-#   - The accuracy, which is the proportion of correctly predicted labels.
+#### Function: accuracy
+# Description: Calculate the accuracy of predicted class labels compared to true
+#               class labels.
+# Input:
+#         yhat  - Vector of predicted class labels.
+#         y     - Vector of true class labels.
+# Output:
+#               - The accuracy, i.e. the proportion of correctly predicted labels.
 accuracy <- function(yhat, y) {
   # Count the number of correctly predicted labels and calculate the accuracy.
-  # The accuracy is the ratio of correctly predicted labels to the total number of labels.
+  # The accuracy is the ratio of correctly predicted labels 
+  # to the total number of labels.
   return(sum(y==yhat)/length(y))
 }
 
 # Set seed for best outcome
 set.seed(7)
 
-# Data Preparation:
-## Load iris dataset
+#### Data Preparation:
+# Load iris dataset
 data("iris")
-## Extract features (X) and labels (y) from the iris dataset.
+# Extract features (X) and labels (y) from the iris dataset.
 X <- iris[,(1:4)]
 y <- as.numeric(as.factor(iris[,5]))
-## Generate indices for test set.
+# Generate indices for test set.
 test_index <- seq(5, dim(X)[1], by=5)
-## Split the data into training and test sets.
+# Split the data into training and test sets.
 X_train <- X[-test_index,]
 y_train <- y[-test_index]
 X_test <- X[test_index,]
 y_test <- y[test_index]
 
 # NN Initialization:
-## Initialize a nn structure with input size 4, hidden layers of sizes 8, 7, and output size 3.
+# Initialize a nn structure with input size 4, hidden layers of sizes 8, 7, 
+# and output size 3.
 nn <- netup(c(4,8,7,3))
 
-# Training:
-## Train the neural network using the training data.
-## We found that the train function give a better result when using eta=.09 
+#### Training:
+# Train the neural network using the training data.
+# We found that the train function give a better result when using eta=.09 
 nn <- train(nn, X_train, y_train, eta=.09)
-## Plot the training loss over iterations.
+# Plot the training loss over iterations.
 plot(matrix(nn$loss), type='l', main="Training Loss Over Iterations", xlab="Iterations", ylab="Loss")
 
-# Testing:
-## Make predictions on the test set.
+#### Testing:
+# Make predictions on the test set.
 yhat <- predict(nn, X_test)
-## Calculate and print the misclassification rate (1 - accuracy) on the test set.
+# Calculate and print the misclassification rate (1 - accuracy) on the test set.
 missclassification_rate <- 1 - accuracy(y_test, yhat)
 cat("missclassification rate on test set:", sprintf("%.2f%%", missclassification_rate * 100), "\n")
