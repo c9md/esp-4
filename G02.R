@@ -12,13 +12,16 @@
 
 
 # Function: cross_entropy
-# Description: Calculate the cross-entropy loss between predicted probabilities (yhat) and true labels (y).
+# Description: Calculate the cross-entropy loss between predicted probabilities
+# (yhat) and true labels (y).
 # We can also describe this as negative log-likelihood of a multinomial distribution
 # Defined as: L = -sum(log(p_k_i)/n) 
-# where p_k_i is the predicted probability of class k for sample i, and n is the total number of samples.
+# where p_k_i is the predicted probability of class k for sample i, and n is 
+# the total number of samples.
 # Inputs:
 #   - yhat: A matrix of predicted probabilities where each column represents a class.
-#   - y: A vector or matrix of true class labels, or a numeric vector indicating the true class indices.
+#   - y:n   A vector or matrix of true class labels, or a numeric vector indicating 
+#           the true class indices.
 # Returns:
 #   - Cross-entropy loss value.
 cross_entropy <- function(yhat, y) {
