@@ -3,7 +3,7 @@
 #Contributions:
 # Sophie:  NetUp, forward, backward, derivative testing, code comment clarity 33.3% 
 # Cameron: code setup and initial framework of main functions, debug, commenting  33.3%
-# Nala: 33.3%
+# Nala: train function, iris data prep, nn train and test code 33.3%
 
 #### Code Overview:
 # In this code, we train the a neural network to classify iris types,
