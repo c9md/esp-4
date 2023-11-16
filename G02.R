@@ -10,8 +10,12 @@
 # 
 # 
 
+
 # Function: cross_entropy
 # Description: Calculate the cross-entropy loss between predicted probabilities (yhat) and true labels (y).
+# We can also describe this as negative log-likelihood of a multinomial distribution
+# Defined as: L = -sum(log(p_k_i)/n) 
+# where p_k_i is the predicted probability of class k for sample i, and n is the total number of samples.
 # Inputs:
 #   - yhat: A matrix of predicted probabilities where each column represents a class.
 #   - y: A vector or matrix of true class labels, or a numeric vector indicating the true class indices.
@@ -28,6 +32,7 @@ cross_entropy <- function(yhat, y) {
 
 # Function: softmax
 # Description: Apply the softmax activation function to the input matrix 'mat' along its columns.
+# This calculates the probabilities p_k of each class for each sample.
 # Inputs
 #   - mat: Input matrix where each column represents the pre-activation values for different classes.
 # Returns:
