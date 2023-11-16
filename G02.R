@@ -1,7 +1,7 @@
 # Sophie Bata-Madden s2037949, Cameron Donnelly s2018520, Nala Krisnanda s2587290
 # Link to Github repo: https://github.com/c9md/esp-4
 #Contributions:
-# Sophie:  33.3% 
+# Sophie:  NetUp, forward, backward, derivative testing, code comment clarity 33.3% 
 # Cameron:  33.3%
 # Nala: 33.3%
 
@@ -25,7 +25,7 @@
 #         y       -  A vector or matrix of true class labels, 
 #                     or a numeric vector indicating the true class indices.
 # Output: 
-#                 -Cross-entropy loss value.
+#                 -  Cross-entropy loss value.
 cross_entropy <- function(yhat, y) {
   # Create a matrix combining true labels 'y' with their corresponding indices.
   k_true <- cbind(y, seq_along(y))
@@ -39,6 +39,8 @@ cross_entropy <- function(yhat, y) {
 # Description: Apply the softmax activation function to the input matrix 
 # along its columns.
 # This calculates the probabilities p_k of each class for each sample.
+# we define for each class k, the probability p_k as:
+#   p_k = exp(a_k)/sum(exp(a_k))
 # Input:    
 #         mat - Input matrix where each column represents the pre-activation
 #                 values for different classes.
@@ -147,11 +149,11 @@ forward <- function(nn, inp){
     h[[l+1]] <- W[[l]] %*% h[[l]] + b[[l]]
 
     # Apply activation function
-    ## if it is the last layer then we apply softmax activation function (eq.2)
+    ## if it is the last layer then we apply softmax activation function
     if(l+1 == length(h)){
       h[[l+1]] <- softmax(h[[l+1]])
     }
-    ## if it is not the last layer we apply relu activation function (eq.1)
+    ## if it is not the last layer we apply relu activation function
     else{
       h[[l+1]] <- relu(h[[l+1]])
     }
