@@ -2,7 +2,7 @@
 # Link to Github repo: https://github.com/c9md/esp-4
 #Contributions:
 # Sophie:  NetUp, forward, backward, derivative testing, code comment clarity 33.3% 
-# Cameron:  33.3%
+# Cameron: code setup and initial framework of main functions, debug, commenting  33.3%
 # Nala: 33.3%
 
 #### Code Overview:
