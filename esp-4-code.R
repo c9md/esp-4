@@ -87,27 +87,25 @@ relu <- function (mat){
 #               b[[l]] is the offset vector linking layer l to layer l+1. 
 #               Initialize the elements with U (0, 0.2) random deviates.
 netup <- function(d){
-  # Construct a list of lists, h, where each sublist
-  # h[[i]] is of corresponding length d[i]
-  h <- list()
+  # Construct a list of lists, h for layers, W for weight matrices, and b for 
+  # offset vectors
+  h <- list(); W <- list(); b <- list()  
+
   for (l in 1:length(d)){
+    # h[[i]] is the matrix representing layer i
     h[[l]] <- rep(0,d[l])
-  }
-  
-  # W is a list of weight matrices, 
-  # W[[i]] is the weight matrix linking layer i to layer i + 1
-  # We initialise the elements with U(0,0.2) random deviates
-  W <- list() 
-  for (l in 1:(length(d)-1)){
-    W[[l]] <- matrix(runif(d[l]*d[l+1],0,0.2), nrow=d[l+1], ncol=d[l])
-  }
-   
-  # b is a list of offset vectors, 
-  # b[[i]] is the offset vector linking layer i to layer i + 1
-  # We initialise the elements with U(0,0.2) random deviates
-  b <- list() 
-  for (l in 1:(length(d)-1)){
-    b[[l]] <- runif(d[l+1],0,0.2)
+
+    # Generate W[[i]] and b[[i]] if l is not equal the length d
+    # W and b lists will have 1 element less compared to h
+    if(l!=length(d)){
+      # W[[i]] is the weight matrix linking layer i to layer i + 1
+      # We initialise the elements with U(0,0.2) random deviates
+      W[[l]] <- matrix(runif(d[l]*d[l+1],0,0.2), nrow=d[l+1], ncol=d[l])
+
+      # b[[i]] is the offset vector linking layer i to layer i + 1
+      # We initialise the elements with U(0,0.2) random deviates
+      b[[l]] <- runif(d[l+1],0,0.2)   
+    }
   }
 
   # Return a list containing initialized hidden layers ('h'), 
