@@ -266,7 +266,7 @@ train <- function(nn, inp, k, eta=.01, mb=10, nstep=10000) {
 }
 
 #### Function: predict
-# Description: Make predictions using a trained neural network for a given input.
+# Description: Make predictions using a trained neural network for a given input
 # Input:
 #         nn    - A list containing the neural network with hidden layer 
 #                 values ('h'), weight matrices ('W'), and bias vectors ('b').
@@ -294,7 +294,7 @@ predict <- function(nn, inp) {
 #         yhat  - Vector of predicted class labels.
 #         y     - Vector of true class labels.
 # Output:
-#               - The accuracy, i.e. the proportion of correctly predicted labels.
+#               - The accuracy: the proportion of correctly predicted labels.
 accuracy <- function(yhat, y) {
   # Count the number of correctly predicted labels and calculate the accuracy.
   # The accuracy is the ratio of correctly predicted labels 
@@ -329,11 +329,13 @@ nn <- netup(c(4,8,7,3))
 # We found that the train function give a better result when using eta=.09 
 nn <- train(nn, X_train, y_train, eta=.09)
 # Plot the training loss over iterations.
-plot(matrix(nn$loss), type='l', main="Training Loss Over Iterations", xlab="Iterations", ylab="Loss")
+plot(matrix(nn$loss), type='l', main="Training Loss Over Iterations", 
+     xlab="Iterations", ylab="Loss")
 
 #### Testing:
 # Make predictions on the test set.
 yhat <- predict(nn, X_test)
 # Calculate and print the misclassification rate (1 - accuracy) on the test set.
 missclassification_rate <- 1 - accuracy(y_test, yhat)
-cat("missclassification rate on test set:", sprintf("%.2f%%", missclassification_rate * 100), "\n")
+cat("missclassification rate on test set:", 
+    sprintf("%.2f%%", missclassification_rate * 100), "\n")
