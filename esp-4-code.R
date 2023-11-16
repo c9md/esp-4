@@ -28,7 +28,7 @@
 cross_entropy <- function(yhat, y) {
   # Create a matrix combining true labels 'y' with their corresponding indices.
   k_true <- cbind(y, seq_along(y))
-  
+
   # Compute negative sum of the logs of predicted probabilities for true classes
   # Divide by the total number of samples to get the average cross-entropy loss.
   return(-sum(log(yhat[k_true]))/length(y))
@@ -48,10 +48,10 @@ softmax <- function(mat) {
   # Compute the exponentials of the input matrix 
   # to obtain unnormalized probabilities.
   exp_mat <- exp(mat)
-  
+
   # Calculate the column sums of the exponentiated matrix to normalize the probabilities.
   exp_mat_colsum <- colSums(exp_mat)
-  
+
   # Divide each element of the exponentiated matrix by its column sum to obtain probabilities.
   # Transpose the result to maintain the original matrix orientation.
   return(t(t(exp_mat)/exp_mat_colsum))
@@ -67,7 +67,7 @@ softmax <- function(mat) {
 relu <- function (mat){
   # Replace negative values in the input matrix with zero.
   mat[which(mat<0)] <- 0
-  
+
   # Return the modified matrix after applying the ReLU activation function.
   return(mat)
 }
@@ -101,7 +101,7 @@ netup <- function(d){
   for (l in 1:(length(d)-1)){
     W[[l]] <- matrix(runif(d[l]*d[l+1],0,0.2), nrow=d[l+1], ncol=d[l])
   }
-  
+   
   # b is a list of offset vectors, 
   # b[[i]] is the offset vector linking layer i to layer i + 1
   # We initialise the elements with U(0,0.2) random deviates
@@ -109,7 +109,7 @@ netup <- function(d){
   for (l in 1:(length(d)-1)){
     b[[l]] <- runif(d[l+1],0,0.2)
   }
-  
+
   # Return a list containing initialized hidden layers ('h'), 
   # weight matrices ('W'), and bias vectors ('b')
   return(list(h = h, W = W, b = b))          
