@@ -24,7 +24,8 @@
 #                    represents a class.
 #         y       -  A vector or matrix of true class labels, 
 #                     or a numeric vector indicating the true class indices.
-# Output:           Cross-entropy loss value.
+# Output: Cross-entropy loss value.
+
 cross_entropy <- function(yhat, y) {
   # Create a matrix combining true labels 'y' with their corresponding indices.
   k_true <- cbind(y, seq_along(y))
@@ -49,10 +50,12 @@ softmax <- function(mat) {
   # to obtain unnormalized probabilities.
   exp_mat <- exp(mat)
   
-  # Calculate the column sums of the exponentiated matrix to normalize the probabilities.
+  # Calculate the column sums of the exponentiated matrix 
+  #to normalize the probabilities.
   exp_mat_colsum <- colSums(exp_mat)
   
-  # Divide each element of the exponentiated matrix by its column sum to obtain probabilities.
+  # Divide each element of the exponentiated matrix by its column sum 
+  # to obtain probabilities.
   # Transpose the result to maintain the original matrix orientation.
   return(t(t(exp_mat)/exp_mat_colsum))
 }
